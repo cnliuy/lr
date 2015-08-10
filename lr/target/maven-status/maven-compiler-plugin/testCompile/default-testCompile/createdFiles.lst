@@ -1,0 +1,15 @@
+com\job\lr\functional\rest\TaskRestFT.class
+com\job\lr\QuickStartServer.class
+com\job\lr\service\account\AccountServiceTest.class
+com\job\lr\data\TaskData.class
+com\job\lr\functional\rest\TaskRestFT$TaskList.class
+com\job\lr\functional\gui\RegisterFT.class
+com\job\lr\repository\TaskDaoTest.class
+com\job\lr\functional\gui\TaskGuiFT.class
+com\job\lr\functional\gui\UserAdminFT.class
+com\job\lr\functional\gui\SecurityFT.class
+com\job\lr\functional\BaseSeleniumTestCase.class
+com\job\lr\functional\BaseFunctionalTestCase.class
+com\job\lr\functional\gui\ProfileFT.class
+com\job\lr\data\UserData.class
+com\job\lr\repository\JpaMappingTest.class

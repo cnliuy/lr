@@ -34,7 +34,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+		System.out.println("ShiroDbRealm ---->  doGetAuthenticationInfo authcToken");
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+		System.out.println("token.getCredentials()："+token.getCredentials());
+		System.out.println("token.getHost()："+token.getHost());
+		System.out.println("token.getUsername()："+token.getUsername());
+		System.out.println("token.getPassword()："+token.getPassword());
+		System.out.println("token.getPrincipal()："+token.getPrincipal());
+		
 		User user = accountService.findUserByLoginName(token.getUsername());
 		if (user != null) {
 			byte[] salt = Encodes.decodeHex(user.getSalt());
@@ -50,6 +57,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		System.out.println("ShiroDbRealm ---->  doGetAuthorizationInfo principals");
 		ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
 		User user = accountService.findUserByLoginName(shiroUser.loginName);
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -76,6 +84,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.
 	 */
 	public static class ShiroUser implements Serializable {
+
+
 		private static final long serialVersionUID = -1373760761780840081L;
 		public Long id;
 		public String loginName;

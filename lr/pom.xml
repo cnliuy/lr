@@ -123,6 +123,18 @@
         	<artifactId>postgresql</artifactId>
         	<version>9.1-901.jdbc4</version>
     	</dependency>
+    	
+    	<dependency>  
+    		<groupId>org.apache.oltu.oauth2</groupId>  
+    		<artifactId>org.apache.oltu.oauth2.authzserver</artifactId>  
+    		<version>0.31</version>  
+		</dependency>  
+		<dependency>  
+    		<groupId>org.apache.oltu.oauth2</groupId>  
+    		<artifactId>org.apache.oltu.oauth2.resourceserver</artifactId>  
+    		<version>0.31</version>  
+		</dependency>
+    	
 		<!-- liuy add pg end -->
 		
 		<!-- WEB begin -->

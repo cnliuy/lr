@@ -48,7 +48,7 @@ public class LogAspect {
      */
     @Before("pointcutExpression()")
     public void beforeMethod(JoinPoint joinPoint) {
-        System.out.println("前置通知执行了");
+        //--System.out.println("前置通知执行了");
     }
      
     /**
@@ -56,7 +56,7 @@ public class LogAspect {
      */
     @After("pointcutExpression()") // 在方法执行之后执行的代码. 无论该方法是否出现异常
     public void afterMethod(JoinPoint joinPoint) {
-        System.out.println("后置通知执行了，有异常也会执行");
+    	//--System.out.println("后置通知执行了，有异常也会执行");
     }
      
     /**
@@ -71,7 +71,7 @@ public class LogAspect {
      */
     @AfterReturning(value = "pointcutExpression()", returning = "returnValue")
     public void afterRunningMethod(JoinPoint joinPoint, Object returnValue) {
-        System.out.println("返回通知执行，执行结果：" + returnValue);
+    	//--System.out.println("返回通知执行，执行结果：" + returnValue);
     }
      
     /**
@@ -85,7 +85,7 @@ public class LogAspect {
      */
     @AfterThrowing(value = "pointcutExpression()", throwing = "e")
     public void afterThrowingMethod(JoinPoint joinPoint, Exception e){
-        System.out.println("异常通知, 出现异常 ：" + e);
+    	//--System.out.println("异常通知, 出现异常 ：" + e);
     }
      
     /**
@@ -102,18 +102,18 @@ public class LogAspect {
          
         try {
             //前置通知
-            System.out.println("The method " + methodName + " begins with " + Arrays.asList(pjd.getArgs()));
+        	//--System.out.println("The method " + methodName + " begins with " + Arrays.asList(pjd.getArgs()));
             //执行目标方法
             result = pjd.proceed();
             //返回通知
-            System.out.println("The method " + methodName + " ends with " + result);
+            //--System.out.println("The method " + methodName + " ends with " + result);
         } catch (Throwable e) {
             //异常通知
-            System.out.println("The method " + methodName + " occurs exception:" + e);
+        	//--System.out.println("The method " + methodName + " occurs exception:" + e);
             throw new RuntimeException(e);
         }
         //后置通知
-        System.out.println("The method " + methodName + " ends");
+        //--System.out.println("The method " + methodName + " ends");
          
         return result;
     }

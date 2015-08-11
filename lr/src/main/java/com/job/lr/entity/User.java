@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
@@ -99,6 +101,7 @@ public class User extends IdEntity {
 	}
 
 	// 设定JSON序列化时的日期格式
+	//@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date getRegisterDate() {
 		return registerDate;

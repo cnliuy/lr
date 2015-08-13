@@ -25,9 +25,12 @@ public class LoginController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String login() {
-		System.out.println("here 1 ");
-		return "account/login";
+		System.out.println("here 1 login GET");
+		
+		//return "account/login";
+		return "/admin/user";
 	}
+	
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String fail(@RequestParam(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM) String userName, Model model) {

@@ -25,6 +25,7 @@ public class Task extends IdEntity {
 	// JSR303 BeanValidator的校验规则
 	@NotBlank
 	public String getTitle() {
+		
 		return title;
 	}
 

@@ -64,6 +64,7 @@
 	
 	<bean id="statelessAuthcFilter" class="com.job.lr.filter.StatelessAuthcFilter">
 		<property name="accountService" ref="accountService"/>
+		<property name="usertokenService" ref="usertokenService"/>
 	</bean>
 	
 	

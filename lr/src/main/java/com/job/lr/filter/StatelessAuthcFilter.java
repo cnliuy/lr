@@ -7,7 +7,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
 import com.job.lr.entity.User;
+import com.job.lr.entity.Usertoken;
 import com.job.lr.service.account.AccountService;
+import com.job.lr.service.account.UsertokenService;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -32,6 +34,16 @@ public class StatelessAuthcFilter extends AccessControlFilter {
 		this.accountService = accountService;
 	}
 	
+	protected UsertokenService usertokenService;
+	
+	public UsertokenService getUsertokenService() {
+		return usertokenService;
+	}
+
+	public void setUsertokenService(UsertokenService usertokenService) {
+		this.usertokenService = usertokenService;
+	}
+
 	/**
 	 * step 1 :  be use
 	 * 是根据当前请求上下文信息每次请求时都要登录的认证过滤器。
@@ -79,6 +91,7 @@ public class StatelessAuthcFilter extends AccessControlFilter {
         	onLoginFail(response); //6、登录失败
         	return false;
         }else{
+        	//6、登录成功 传递登陆的 token
         	username = username.trim() ;
         	clientDigest = clientDigest.trim();
         	User user = accountService.findUserByLoginName(username);
@@ -86,12 +99,17 @@ public class StatelessAuthcFilter extends AccessControlFilter {
         	if (userpassword.equals(clientDigest)){
 	        	//AuthenticationToken token = new UsernamePasswordToken(username, seceretstr, remeberme, hostip);
 	        	StatelessToken token = new StatelessToken(username, params, clientDigest);  
-	        	/**
-	             * 
+	        	/** 
 	             * To ShiroDbRealm.class  old
 	             * 
 	             * TO StatelessRealm.class new
 	             * */
+	        	Usertoken ut = new  Usertoken();
+	        	Long userId =user.getId() ;
+	        	ut.setUserId(userId);
+	        	System.out.println("开始查询 Usertoken");
+	        	usertokenService.findUsertoken(userId);
+	        	空
 	            try {
 	                //5、委托给 StatelessRealm 进行登录
 	            	//SecurityUtils.getSubject().login(token);

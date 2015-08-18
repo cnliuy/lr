@@ -24,6 +24,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
 import com.job.lr.entity.User;
+import com.job.lr.filter.Constants;
 import com.job.lr.filter.HmacSHA256Utils;
 import com.job.lr.filter.StatelessToken;
 
@@ -34,12 +35,15 @@ import com.google.common.base.Objects;
 public class ShiroDbRealm extends AuthorizingRealm {
 
 	protected AccountService accountService;
+	
+	
 
 	/**
 	 * 认证回调函数,登录时调用.  
 	 * 
 	 * 之前 HostAuthenticationToken  
 	 * authcBasic 的认证方式
+	 * ok  use
 	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
@@ -47,8 +51,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		//to.setRememberMe(true);
 		//Subject currentUser = SecurityUtils.getSubject();
 		//currentUser.login(to);		
-		System.out.println("ShiroDbRealm ---->  doGetAuthenticationInfo authcToken");
+		System.out.println("ShiroDbRealm ---->  doGetAuthenticationInfo authcToken 0");
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+		String upPassword = String.valueOf(token.getPassword());
 		//UsernamePasswordToken token = (UsernamePasswordToken) to;
 		System.out.println("token.getCredentials()："+token.getCredentials());
 		System.out.println("token.getHost()："+token.getHost());
@@ -56,10 +61,19 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		System.out.println("token.getPassword()："+String.valueOf(token.getPassword()));
 		System.out.println("token.getPrincipal()："+token.getPrincipal());		
 		User user = accountService.findUserByLoginName(token.getUsername());
+		
 		if (user != null) {
-			byte[] salt = Encodes.decodeHex(user.getSalt());
-			return new SimpleAuthenticationInfo(new ShiroUser(user.getId(), user.getLoginName(), user.getName()),
-					user.getPassword(), ByteSource.Util.bytes(salt), getName());
+			//byte[] salt = Encodes.decodeHex(user.getSalt());
+			if( (user.getPassword()).equals(upPassword)){
+				byte[] salt = Encodes.decodeHex(Constants.PARAM_SECRETSTR );	
+				System.out.println("upPassword:"+upPassword);
+				//return new SimpleAuthenticationInfo(new ShiroUser(user.getId(), user.getLoginName(), user.getName()),
+				//		user.getPassword(), ByteSource.Util.bytes(salt), getName());
+				return new SimpleAuthenticationInfo(new ShiroUser(user.getId(), user.getLoginName(), user.getName()),
+						user.getPassword(),ByteSource.Util.bytes(salt), getName());
+			}else {
+				return null;
+			}
 		} else {
 			return null;
 		}	
@@ -74,10 +88,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 * 
 	 * 参照   第二十章 无状态Web应用集成——《跟我学Shiro》
 	 * http://jinnianshilongnian.iteye.com/blog/2041909
+	 * @deprecated
 	 */
 	//@Override
 	protected AuthenticationInfo doGetAuthenticationInfo_new (AuthenticationToken authcToken) throws AuthenticationException {		
-		System.out.println("ShiroDbRealm ---->  doGetAuthenticationInfo authcToken");
+		System.out.println("ShiroDbRealm ---->  doGetAuthenticationInfo authcToken 1");
 		StatelessToken statelessToken = (StatelessToken) authcToken;
         String username = statelessToken.getUsername();
         String key = getKey(username);//根据用户名获取密钥（和客户端的一样）

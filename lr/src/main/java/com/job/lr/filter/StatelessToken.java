@@ -10,10 +10,18 @@ public class StatelessToken implements AuthenticationToken {
     private String username;
     private Map<String, ?> params;
     private String clientDigest;
+    private String url;
 
     public StatelessToken(String username,  Map<String, ?> params, String clientDigest) {
         this.username = username;
         this.params = params;
+        this.clientDigest = clientDigest;
+    }
+    
+    
+    public StatelessToken(String username,  String url, String clientDigest) {
+        this.username = username;
+        this.url = url;
         this.clientDigest = clientDigest;
     }
 
@@ -41,7 +49,21 @@ public class StatelessToken implements AuthenticationToken {
         this.clientDigest = clientDigest;
     }
 
-    @Override
+    
+    
+    
+    
+    public String getUrl() {
+		return url;
+	}
+
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+
+	@Override
     public Object getPrincipal() {
        return username;
     }

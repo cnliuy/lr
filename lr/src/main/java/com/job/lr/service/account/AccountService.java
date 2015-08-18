@@ -14,11 +14,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.job.lr.entity.User;
+import com.job.lr.filter.Constants;
 import com.job.lr.repository.TaskDao;
 import com.job.lr.repository.UserDao;
 import com.job.lr.service.ServiceException;
 import com.job.lr.service.account.ShiroDbRealm.ShiroUser;
+
 import org.springside.modules.security.utils.Digests;
 import org.springside.modules.utils.Clock;
 import org.springside.modules.utils.Encodes;
@@ -99,7 +102,11 @@ public class AccountService {
 	 * 设定安全的密码，生成随机的salt并经过1024次 sha-1 hash
 	 */
 	private void entryptPassword(User user) {
-		byte[] salt = Digests.generateSalt(SALT_SIZE);
+		
+		
+		//byte[] salt = Digests.generateSalt(SALT_SIZE);
+		String saltstr = Constants.PARAM_SALT;
+		byte[] salt = Encodes.decodeHex(saltstr);
 		user.setSalt(Encodes.encodeHex(salt));
 
 		byte[] hashPassword = Digests.sha1(user.getPlainPassword().getBytes(), salt, HASH_INTERATIONS);
